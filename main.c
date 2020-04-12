@@ -1,43 +1,45 @@
+//                                      16   12   5
+// this is the CCITT CRC 16 polynomial X  + X  + X  + 1.
+
 #include <stdio.h>
 #include <string.h>
 
-#define POLY 0x8408
+#define POLY 0x1021
+#define MSB_16 0x8000
 
-unsigned short crc16(char *data_p, unsigned short length){
-    unsigned char i;
-    unsigned int data;
-    unsigned int crc = 0xffff;
+unsigned short 
+crc16(char *data_ptr, int message_length)
+{
+  int crc = 0;
+  char message_byte;
 
-    if (length == 0){
-        return (~crc);
-    }
+  while (--message_length >= 0)
+  {
+    message_byte = 8;
+    crc = crc ^ (((int) *data_ptr++) << message_byte);
 
-    do{
-        for(i=0, data=(unsigned int)0xff & *data_p++; i<8;i++, data >>= 1){
-            if((crc & 0x0001) ^ (data & 0x0001)){
-                crc = (crc >> 1) ^ POLY;
-            }
-            else{
-                crc >>=1;
-            }
-        }
-    }while(--length);
-    crc = ~crc;
-    data = crc;
-    crc = (crc<<8) | (data>>8 & 0xff);
-
-    return (crc);
+    do
+    {
+      if (crc & MSB_16)
+      crc = (crc << 1) ^ POLY;
+      else
+      crc = crc << 1;
+    } while(--message_byte);
+  }
+  return (crc);
 }
 
-int main(){
-    char *message;
-    unsigned short message_length;
-    unsigned short returned_from_crc;
-    *message = 'h';
-    message_length = strlen(message);
+int main()
+{
+  char message[2];
+  unsigned short message_length;
+  int crc;
+  message_length = 2;
+  message[0] = 'h';
+  message[1] = 'i';
 
-    returned_from_crc = crc16(message, message_length);
-    printf("0x%X\n", returned_from_crc);
+  crc = crc16(&message[0], message_length);
+  printf("0x%X\n", crc);
 
-    return 0; 
+  return 0; 
 }
