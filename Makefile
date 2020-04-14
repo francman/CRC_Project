@@ -1,11 +1,13 @@
 CC = gcc
 CFLAGS = -Wall -ansi -std=c11 -pedantic-errors
+DEPS = crc.h
+OBJ = main.o crc.o
 
-main: main.o
-	$(CC) -o main main.o
+main: $(OBJ)
+	$(CC) $(CFLAGS) -o $@ $^ 
 
-main.o: main.c
-	$(CC) $(CFLAGS) -c main.c
+%.o: %.c $(DEPS)
+	$(CC) $(CFLAGS) -c -o $@ $<
 
 clean:
-	rm main main.o
+	rm main $(OBJ)
