@@ -7,23 +7,27 @@
 //  from the Coding and Information Theory class at UMass Lowell
 //  EECE 5480 - Spring 2020
 
+//***************************************************************
+//                                       16   12   5
+//  This is the CCITT CRC 16 Polynomial X  + X  + X  + 1 used
+//***************************************************************
 
-//                                      16   12   5
-// this is the CCITT CRC 16 polynomial X  + X  + X  + 1.
 #include "crc.h"
+#include "binarize.h"
 #include <stdio.h>
 #include <string.h>
 
-int main()
+int main(int argc, char *argv[])
 {
-  char message[2];
+  char message[] = "hello";
+  int * binary_array;
   unsigned short message_length;
-  int crc;
-  message_length = 2;
-  message[0] = 'h';
-  message[1] = 'i';
+  unsigned int crc;
+  
+  message_length = strlen(message);
 
-  crc = crc16(&message[0], message_length);
+  crc = crc16(message, message_length);
+  convert_and_print_binary(message);
   printf("0x%X\n", crc);
 
   return 0; 
