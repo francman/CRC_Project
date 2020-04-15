@@ -6,6 +6,15 @@ The program also prints out ASCII binary representations of the message as well 
 
 The calculated CRC is also printed in HEX if needed for sanity check.
 
+To modify which message is used by the machine for testing change HELLO in __char message[] = "HELLO\n";__ in main.c
+
+## Polynomial
+
+__CRC-16 CCITT__
+- Poly: __x<sup>16</sup>+x<sup>12</sup>+x<sup>5</sup>+1__
+- Hex Poly: __0x1021__
+- Init: __0x0000__
+
 ## Requirements
 
 - C Compiler - GCC recommended (GNU C Compiler)
@@ -21,7 +30,6 @@ You can also use the shellscript and just type __./start__. You may need to chan
 ## Known Bugs
 
 - No known bugs
-
 
 ## Copyright Information
 
