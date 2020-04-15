@@ -9,5 +9,9 @@
 
 #define POLY 0x1021
 #define MSB_16 0x8000
+#define TRUE 1
+#define FALSE 0
+
 
 unsigned short crc16(char *data_ptr, int message_length);
+int crc_checker(unsigned short crc_1, unsigned short crc_2);

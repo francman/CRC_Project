@@ -9,8 +9,7 @@
 
 #include "crc.h"
 
-unsigned short 
-crc16(char *data_ptr, int message_length)
+unsigned short crc16(char *data_ptr, int message_length)
 {
   unsigned short crc = 0x00;
   char message_byte;
@@ -29,4 +28,16 @@ crc16(char *data_ptr, int message_length)
     } while(--message_byte);
   }
   return (crc);
+}
+
+int crc_checker(unsigned short crc_1, unsigned short crc_2)
+{
+  if (crc_1 == crc_2)
+  {
+    return TRUE;
+  }
+  else
+  {
+    return FALSE;
+  }
 }

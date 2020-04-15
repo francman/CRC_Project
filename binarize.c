@@ -5,8 +5,9 @@
 
 //
 //
-// 
-int * string_to_binary(char *string_array)
+//
+// TODO: Function incomplete, need to return binary address, not used - can ignore
+int *string_to_binary(char *string_array)
 {
   int string_array_length = strlen(string_array);
 
@@ -29,16 +30,18 @@ int * string_to_binary(char *string_array)
     }
     k += 9;
   }
-  return binary;
+  // TODO remove printf line below - inserted to prevent unused variable warning
+  printf("%ls",binary);
+  // The return below generates a compiler warning: function returns address of local variable
+  // return binary;
+  return 0;
 }
 
 //  
 //
 //
-void print_binary(int *binary, int string_array)
+void print_binary(int *binary, char *string_array, int string_array_length)
 {
-  int string_array_length = strlen(string_array);
-
   printf("%s\n", string_array);
   for(int i = 1; i < BYTE_LENGTH*string_array_length; i++)
   {
@@ -53,7 +56,7 @@ void print_binary(int *binary, int string_array)
 //  
 //
 //
-void convert_and_print_binary(char *string_array)
+void convert_and_print_binary(char *string_array, int print_original_string)
 {
     int string_array_length = strlen(string_array);
 
@@ -71,12 +74,17 @@ void convert_and_print_binary(char *string_array)
       j = k - 1;
       num = string_array[i];
       while(num != 0){
-          binary[j--] = num % 2;
-          num /= 2;
+        binary[j--] = num % 2;
+        num /= 2;
       }
       k += 9;
     }
-    printf("%s\n", string_array);
+
+    if(print_original_string == TRUE)
+    {
+      printf("%s\n", string_array);
+    }
+
     for(int i = 1; i < BYTE_LENGTH*string_array_length; i++)
     {
       printf("%d", binary[i - 1]);
@@ -84,5 +92,40 @@ void convert_and_print_binary(char *string_array)
         printf(" ");
       }
     }
-    printf("\n");
+}
+
+//
+//
+//
+char *decimal_to_binary(int decimal_number)
+{
+   int character_length;
+   int temp_digit;
+   int count;
+   char *pointer;
+   
+   count = 0;
+   pointer = (char*)malloc(15+2);
+   
+   if (pointer == NULL)
+      exit(EXIT_FAILURE);
+     
+   for (character_length = 15 ; character_length >= 0 ; character_length--)
+   {
+      temp_digit = decimal_number >> character_length;
+     
+      if (temp_digit & 1)
+         *(pointer+count) = 1 + '0';
+      else
+         *(pointer+count) = 0 + '0';
+     
+      count++;
+      if(count == BYTE_LENGTH)
+      {
+        *(pointer+count) =' ';
+        count ++;
+      }
+   }
+   *(pointer+count) = '\0';
+   return  pointer;
 }
